@@ -3,6 +3,7 @@ Unitify
 
 Take units in one locale and change them to another, in place (Chrome).
 
+
 Motivation
 ----------
 
@@ -12,6 +13,13 @@ look them up.
 
 So, this plugin just replaces stuff in the page, with a title-text showing the
 original text.
+
+
+Test page
+---------
+
+http://htmlpreview.github.com/?https://raw.github.com/stringfellow/unitify/master/test.html
+
 
 Help me make it better?
 -----------------------
