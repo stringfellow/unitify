@@ -1,10 +1,12 @@
 function makeUUID() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
+        /[xy]/g,
+        function(c) {
             var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
-                return v.toString(16);
-    });
+            return v.toString(16);
+        }
+    );
 }
-
 
 function fahrenheitToCentigrade(match, unit) {  
     var val = parseFloat(match[1] + match[2]);
@@ -21,14 +23,15 @@ function cupsFlourToGramsFlour(match, unit) {
     var val1 = parseFloat(match[1]);
     var val2 = match[2];
     var val = val1;
-    if (val2.length > 0) {
+    if (val2.length > 0) {  // this is pretty horrid but I can't figure the RE
         if (val2[0] == '/') {
             val2 = "" + val1 + val2;
             val = 0;
         }
         val += fracTextToFloat(val2);
     }
-    var conv = val * 136; // http://allrecipes.com/howto/cup-to-gram-conversions/
+    // http://allrecipes.com/howto/cup-to-gram-conversions/
+    var conv = val * 136;
     return "" + conv.toFixed(0) + " grams" + match[5] + "flour"
 }
 
@@ -40,31 +43,36 @@ function getConversions(localeString) {
                 from: 'fahrenheit',
                 to: 'celsius',
                 pattern: /(\d+)(\.*\d*)([A-Za-z ;&]*)(fahrenheit)/gi,
-                modifier: function(match) {return fahrenheitToCentigrade(match, 'celsius')}
+                modifier: function(match) {
+                    return fahrenheitToCentigrade(match, 'celsius')}
             },
             {
                 from: 'degrees F',
                 to: 'degrees C',
                 pattern: /(\d+)(\.*\d*)([A-Za-z ;&]*)(degrees F)/gi,
-                modifier: function(match) {return fahrenheitToCentigrade(match, 'degrees C')}
+                modifier: function(match) {
+                    return fahrenheitToCentigrade(match, 'degrees C')}
             },
             {
                 from: '°F',
                 to: '°C',
                 pattern: /(\d+)(\.*\d*)([A-Za-z ;&]*)(°F)/gi,
-                modifier: function(match) {return fahrenheitToCentigrade(match, '°C')}
+                modifier: function(match) {
+                    return fahrenheitToCentigrade(match, '°C')}
             },
             {
                 from: '℉',
                 to: '℃',
                 pattern: /(\d+)(\.*\d*)([A-Za-z ;&]*)(℉)/gi,
-                modifier: function(match) {return fahrenheitToCentigrade(match, '℃')}
+                modifier: function(match) {
+                    return fahrenheitToCentigrade(match, '℃')}
             },
             {
                 from: 'cups ... flour',
                 to: 'grams ... flour',
                 pattern: /(\d+\s*)(\d*\/*\d*)([A-Za-z ;&]*)cup(s*)([A-Za-z ;&-]*)(flour)/gi,
-                modifier: function(match) {return cupsFlourToGramsFlour(match, 'grams')}
+                modifier: function(match) {
+                return cupsFlourToGramsFlour(match, 'grams')}
             }
         ]
     };
