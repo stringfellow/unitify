@@ -134,12 +134,13 @@ function replaceUnits(elem) {
     _.each(repls, function(repl, ix, list) {
         $('span#' + repl[0]).attr('title', repl[1]);
     });
+    $(elem).addClass('unitified');
 }
 
 function runConversion() {
     // find all elements in groups and do something
     _.each(['span', 'li', 'p'], function(tag, index, taglist){
-        _.each($(tag), function(elem, index, elems){
+        _.each($(tag + ":not(.unitified)"), function(elem, index, elems){
             replaceUnits(elem);
         });
     });
