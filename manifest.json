@@ -1,0 +1,21 @@
+{
+  "manifest_version": 2,
+
+  "name": "Unitify",
+  "description": "Convert units to your preferred tongue in-page.",
+  "version": "1.0",
+
+  "browser_action": {
+    "default_icon": "globe.png",
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["jquery-1.9.1.min.js", "underscore-min.js", "unitify.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "permissions": [
+  ]
+}
