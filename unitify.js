@@ -12,6 +12,26 @@ function fahrenheitToCentigrade(match, unit) {
     return "" + conv.toFixed(2) + match[3] + unit;
 }
 
+function fracTextToFloat(fracText) {
+    return eval(fracText);  // Hmm...
+}
+
+function cupsFlourToGramsFlour(match, unit) {
+    console.log(match);
+    var val1 = parseFloat(match[1]);
+    var val2 = match[2];
+    var val = val1;
+    if (val2.length > 0) {
+        if (val2[0] == '/') {
+            val2 = "" + val1 + val2;
+            val = 0;
+        }
+        val += fracTextToFloat(val2);
+    }
+    var conv = val * 136; // http://allrecipes.com/howto/cup-to-gram-conversions/
+    return "" + conv.toFixed(0) + " grams" + match[5] + "flour"
+}
+
 function getConversions(localeString) {
     // Assume we want units in the locale of localeString
     var conversions = {
@@ -21,6 +41,12 @@ function getConversions(localeString) {
                 to: 'celsius',
                 pattern: /(\d+)(\.*\d*)([A-Za-z ;&]*)(fahrenheit)/gi,
                 modifier: function(match) {return fahrenheitToCentigrade(match, 'celsius')}
+            },
+            {
+                from: 'degrees F',
+                to: 'degrees C',
+                pattern: /(\d+)(\.*\d*)([A-Za-z ;&]*)(degrees F)/gi,
+                modifier: function(match) {return fahrenheitToCentigrade(match, 'degrees C')}
             },
             {
                 from: '°F',
@@ -33,6 +59,12 @@ function getConversions(localeString) {
                 to: '℃',
                 pattern: /(\d+)(\.*\d*)([A-Za-z ;&]*)(℉)/gi,
                 modifier: function(match) {return fahrenheitToCentigrade(match, '℃')}
+            },
+            {
+                from: 'cups ... flour',
+                to: 'grams ... flour',
+                pattern: /(\d+\s*)(\d*\/*\d*)([A-Za-z ;&]*)cup(s*)([A-Za-z ;&-]*)(flour)/gi,
+                modifier: function(match) {return cupsFlourToGramsFlour(match, 'grams')}
             }
         ]
     };
