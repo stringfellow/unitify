@@ -18,7 +18,7 @@ function fracTextToFloat(fracText) {
     return eval(fracText);  // Hmm...
 }
 
-function cupsFlourToGramsFlour(match, unit) {
+function cupsItemToGramsItem(match, unit, multiplier) {
     console.log(match);
     var val1 = parseFloat(match[1]);
     var val2 = match[2];
@@ -31,9 +31,10 @@ function cupsFlourToGramsFlour(match, unit) {
         val += fracTextToFloat(val2);
     }
     // http://allrecipes.com/howto/cup-to-gram-conversions/
-    var conv = val * 136;
-    return "" + conv.toFixed(0) + " grams" + match[5] + "flour"
+    var conv = val * multiplier;
+    return "" + conv.toFixed(0) + " " + unit + match[5] + match[6];
 }
+
 
 function getConversions(localeString) {
     // Assume we want units in the locale of localeString
@@ -72,7 +73,35 @@ function getConversions(localeString) {
                 to: 'grams ... flour',
                 pattern: /(\d+\s*)(\d*\/*\d*)([A-Za-z ;&]*)cup(s*)([A-Za-z ;&-]*)(flour)/gi,
                 modifier: function(match) {
-                return cupsFlourToGramsFlour(match, 'grams')}
+                return cupsItemToGramsItem(match, 'grams', 136)}
+            },
+            {
+                from: 'cups ... honey, molasses or syrup',
+                to: 'grams ... honey, molasses or syrup',
+                pattern: /(\d+\s*)(\d*\/*\d*)([A-Za-z ;&]*)cup(s*)([A-Za-z ;&-]*)(honey|molasses|syrup)/gi,
+                modifier: function(match) {
+                return cupsItemToGramsItem(match, 'grams', 201)}
+            },
+            {
+                from: 'cups ... sugar',
+                to: 'grams ... sugar',
+                pattern: /(\d+\s*)(\d*\/*\d*)([A-Za-z ;&]*)cup(s*)([A-Za-z ;&-]*)(sugar)/gi,
+                modifier: function(match) {
+                return cupsItemToGramsItem(match, 'grams', 340)}
+            },
+            {
+                from: 'cups ... milk',
+                to: 'mL ... milk',
+                pattern: /(\d+\s*)(\d*\/*\d*)([A-Za-z ;&]*)cup(s*)([A-Za-z ;&-]*)(milk)/gi,
+                modifier: function(match) {
+                return cupsItemToGramsItem(match, 'mL', 236)}
+            },
+            {
+                from: 'cups ... butter',
+                to: 'grams ... butter',
+                pattern: /(\d+\s*)(\d*\/*\d*)([A-Za-z ;&]*)cup(s*)([A-Za-z ;&-]*)(butter)/gi,
+                modifier: function(match) {
+                return cupsItemToGramsItem(match, 'grams', 227)}
             }
         ]
     };
@@ -109,7 +138,7 @@ function replaceUnits(elem) {
 
 function runConversion() {
     // find all elements in groups and do something
-    _.each(['span', 'p'], function(tag, index, taglist){
+    _.each(['span', 'li', 'p'], function(tag, index, taglist){
         _.each($(tag), function(elem, index, elems){
             replaceUnits(elem);
         });
