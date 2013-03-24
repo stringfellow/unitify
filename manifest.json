@@ -2,7 +2,7 @@
   "manifest_version": 2,
 
   "name": "Unitify",
-  "description": "Convert units to your preferred tongue in-page.",
+  "description": "Convert units to your preferred tongue, in-page.",
   "version": "1.0",
 
   "options_page": "options.html",
