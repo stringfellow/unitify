@@ -10,6 +10,7 @@
     "default_icon": "globe.png",
     "default_popup": "options.html"
   },
+  "icons": { "128": "globe.png" },
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*"],
