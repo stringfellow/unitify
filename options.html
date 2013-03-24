@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+        <meta charset='utf-8'> 
+        <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+	</head>
+	<body>
+        <div class="container">
+            <div class="hero-unit">
+                <h2>Unitify Options</h2>
+            </div>
+
+            <form class="form-horizontal">
+                <fieldset>
+                    <div class="control-group">
+                        <div class="controls">
+                            <label class="checkbox">
+                                <input type="checkbox" id="do-translate"> Do the translations?
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="translate-to"  class="control-label">Translate to:</label>
+                        <div class="controls">
+                            <select name="translate-to" id="translate-to">
+                                <option value="----">--- Select ---</option>
+                                <option value="en-gb">British!</option>
+                                <option value="en-us">American</option>
+                            </select>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+            <div class="alert alert-success hidden" id="message-box">
+            </div>
+            <button class="btn btn-large btn-primary" type="button" id="doneButton">
+                Done
+            </button>
+
+	    </div>
+        <footer style="margin: 20px;">
+            <div class="well">
+                <ul style="list-style: none;">
+                    <li><small>Steve Pike 2013</small></li>
+                    <li><small><a href="http://github.com/stringfellow/unitify" target="_blank">Unitify on GitHub</a></small></li>
+                </ul>
+            </div>
+        </footer>
+        <script src="underscore-min.js"></script>
+        <script src="jquery-1.9.1.min.js"></script>
+        <script type="text/javascript" src="options.js"></script>
+	</body>
+</html>
+
+

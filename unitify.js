@@ -19,7 +19,6 @@ function fracTextToFloat(fracText) {
 }
 
 function cupsItemToGramsItem(match, unit, multiplier) {
-    console.log(match);
     var val1 = parseFloat(match[1]);
     var val2 = match[2];
     var val = val1;
@@ -109,9 +108,9 @@ function getConversions(localeString) {
     return conversions[localeString];
 }
 
-function replaceUnits(elem) {
+function replaceUnits(elem, translateTo) {
     // replace the text in the elements
-    var conversions = getConversions("en-gb");  // how do we get locale?
+    var conversions = getConversions(translateTo);  // how do we get locale?
     var html = $(elem).html();
     var repls = [];
     _.each(conversions, function(_c, index, list) {
@@ -119,7 +118,6 @@ function replaceUnits(elem) {
         var match = pattern.exec(html);
         while (match != null) {
             var converted_text = _c.modifier(match);
-            console.log(converted_text);
             var repl_elem = $('<span class="converted"></span>');
             var uuid = makeUUID()
             repl_elem.attr('id', uuid);
@@ -129,7 +127,6 @@ function replaceUnits(elem) {
             html = $(elem).html();
             match = _c.pattern.exec(html);
         }
-        console.log("Done")
     });
     _.each(repls, function(repl, ix, list) {
         $('span#' + repl[0]).attr('title', repl[1]);
@@ -137,14 +134,32 @@ function replaceUnits(elem) {
     $(elem).addClass('unitified');
 }
 
-function runConversion() {
-    // find all elements in groups and do something
-    _.each(['span', 'li', 'p'], function(tag, index, taglist){
-        _.each($(tag + ":not(.unitified)"), function(elem, index, elems){
-            replaceUnits(elem);
+function runConversion(settings) {
+    var translateTo = settings.translateTo ? settings.translateTo : 'en-gb';
+    var doTranslate = settings.doTranslate === true ? true : settings.doTranslate === undefined ? true : false;
+    if (doTranslate) {
+        if (window.unitifyTest) {
+            $('#unitifyDoTranslate').html("Translating to:");
+            $('#unitifyTranslateTo').html(translateTo);
+        }
+        _.each(['span', 'li', 'p'], function(tag, index, taglist){
+            _.each($(tag + ":not(.unitified)"), function(elem, index, elems){
+                replaceUnits(elem, translateTo);
+            });
         });
-    });
-    $('span.converted').css('color', 'red');
+        $('span.converted').css('color', 'red');
+    }
 }
 
-runConversion()
+function go() {
+    // find all elements in groups and do something
+    chrome.storage.sync.get(['translateTo', 'doTranslate'], function(data){
+        runConversion(data);
+    });
+}
+
+if (window.unitifyTest === undefined || window.unitifyTest === false) {
+    go();
+} else {
+    runConversion({doTranslate: true, translateTo: 'en-gb'});
+}

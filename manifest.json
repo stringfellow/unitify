@@ -5,9 +5,10 @@
   "description": "Convert units to your preferred tongue in-page.",
   "version": "1.0",
 
+  "options_page": "options.html",
   "browser_action": {
     "default_icon": "globe.png",
-    "default_popup": "popup.html"
+    "default_popup": "options.html"
   },
   "content_scripts": [
     {
@@ -17,5 +18,6 @@
     }
   ],
   "permissions": [
+    "storage"
   ]
 }
