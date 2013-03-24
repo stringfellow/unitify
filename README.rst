@@ -18,7 +18,7 @@ original text.
 Test page
 ---------
 
-http://htmlpreview.github.com/?https://raw.github.com/stringfellow/unitify/master/test.html
+http://htmlpreview.github.com/?http://raw.github.com/stringfellow/unitify/master/test.html
 
 
 Help me make it better?
