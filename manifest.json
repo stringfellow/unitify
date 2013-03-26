@@ -3,7 +3,7 @@
 
   "name": "Unitify",
   "description": "Convert units to your preferred tongue, in-page.",
-  "version": "1.0",
+  "version": "1.0.1",
 
   "options_page": "options.html",
   "browser_action": {
