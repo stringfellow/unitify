@@ -10,7 +10,7 @@ function makeUUID() {
 
 function fahrenheitToCentigrade(match, unit) {  
     var val = parseFloat(match[1] + match[2]);
-    var conv = (val - 32) / 1.8;
+    var conv = (val - 32) * (5/9);
     return "" + conv.toFixed(2) + match[3] + unit;
 }
 
