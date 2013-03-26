@@ -9,9 +9,12 @@ function makeUUID() {
 }
 
 function fahrenheitToCentigrade(match, unit) {  
-    var val = parseFloat(match[1] + match[2]);
+    var val = parseFloat(match[2] + match[3]);
+    if (match[1].length > 0){
+        val = 0 - val;
+    }
     var conv = (val - 32) * (5/9);
-    return "" + conv.toFixed(2) + match[3] + unit;
+    return "" + conv.toFixed(2) + match[4] + unit;
 }
 
 function fracTextToFloat(fracText) {
@@ -42,28 +45,28 @@ function getConversions(localeString) {
             {
                 from: 'fahrenheit',
                 to: 'celsius',
-                pattern: /(\d+)(\.*\d*)([A-Za-z ;&]*)(fahrenheit)/gi,
+                pattern: /([-−]*)(\d+)(\.*\d*)([A-Za-z ;&]*)(fahrenheit)/gi,
                 modifier: function(match) {
                     return fahrenheitToCentigrade(match, 'celsius')}
             },
             {
                 from: 'degrees F',
                 to: 'degrees C',
-                pattern: /(\d+)(\.*\d*)([A-Za-z ;&]*)(degrees F)/gi,
+                pattern: /([-−]*)(\d+)(\.*\d*)([A-Za-z ;&]*)(degrees F)/gi,
                 modifier: function(match) {
                     return fahrenheitToCentigrade(match, 'degrees C')}
             },
             {
                 from: '°F',
                 to: '°C',
-                pattern: /(\d+)(\.*\d*)([A-Za-z ;&]*)(°F)/gi,
+                pattern: /([-−]*)(\d+)(\.*\d*)([A-Za-z ;&]*)(°F)/gi,
                 modifier: function(match) {
                     return fahrenheitToCentigrade(match, '°C')}
             },
             {
                 from: '℉',
                 to: '℃',
-                pattern: /(\d+)(\.*\d*)([A-Za-z ;&]*)(℉)/gi,
+                pattern: /([-−]*)(\d+)(\.*\d*)([A-Za-z ;&]*)(℉)/gi,
                 modifier: function(match) {
                     return fahrenheitToCentigrade(match, '℃')}
             },
@@ -129,7 +132,8 @@ function replaceUnits(elem, translateTo) {
         }
     });
     _.each(repls, function(repl, ix, list) {
-        $('span#' + repl[0]).attr('title', repl[1]);
+        var title = repl[1].replace('&nbsp;', ' ');
+        $('span#' + repl[0]).attr('title', title);
     });
     $(elem).addClass('unitified');
 }
